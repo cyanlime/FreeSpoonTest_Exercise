@@ -58,7 +58,6 @@ class Test_Recipes_View(unittest.TestCase):
                 'page_size': page_size,
                 'time': time
         })
-        print recipes_page_url
 
         response = requests.get(recipes_page_url)
         self.assertEqual(response.status_code, 200, msg = 'response content status code equals to 200.')
@@ -101,7 +100,6 @@ class Test_Add_Recipes(unittest.TestCase):
                 'Authorization': 'JWT %s' % self.token
             }
             response = requests.delete(recipe, headers = headers)
-            print self.recipes
       
 
     def test_add_recipe(self):
@@ -115,7 +113,6 @@ class Test_Add_Recipes(unittest.TestCase):
 
             try:
                 recipe_data_content = json.loads(response.content)
-                print recipe_data_content
 
                 fields = ['url', 'id', 'name', 'desc', 'tips', 'steps', 'ingredients']
 

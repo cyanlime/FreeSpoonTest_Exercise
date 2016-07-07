@@ -16,7 +16,6 @@ class Test_Authorization(unittest.TestCase):
         })
         self.assertEqual(r.status_code, 200, 
             msg = 'response status code equals to 200.')
-        print r.content
         self.assertIsNotNone(r.content,
             msg = 'response content is not null.')
         try:
@@ -45,7 +44,6 @@ class Test_Authorization(unittest.TestCase):
         r = requests.post(self.login_url)
         self.assertEqual(r.status_code, 400,
             msg = 'response status code equals to 400')
-        print r.status_code
 
     def test_wrong_code(self):
         r = requests.post(self.login_url, data = {
