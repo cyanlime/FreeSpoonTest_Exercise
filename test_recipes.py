@@ -27,11 +27,13 @@ class Test_Recipes_View(unittest.TestCase):
 
             pre_create_time = None
 
-            fields = ['url', 'id', 'name','user', 'desc', 'cover', 'status', 'tips', 'steps', 'dish_num', 'ingredients', 'step_num', 'create_time', 'more']
+            fields = ['url', 'id', 'name','user', 'desc', 'cover', 'status', 'tips', 'steps', 'dish_num', 'ingredients', 
+                'step_num', 'create_time', 'more']
             for item in datacontent:
                 for field in fields:
-                    self.assertIn(field, item, msg = 'response content had no field \'%s\'.' % field)
+                    self.assertIn(field, item, msg = 'response content had no field \'%s\'.' % item[field])
                     
+
                 if not pre_create_time:
                     pre_create_time = item['create_time']
                        
@@ -44,7 +46,8 @@ class Test_Recipes_View(unittest.TestCase):
                 self.assertEqual(response2.status_code, 200, msg = 'response content status code equals to 200.')              
                 datacontent2 = json.loads(response2.content)
                 self.assertTrue(len(datacontent2) > 0, msg = 'response content length not less than 1.')
-                fields2 = ['url', 'id', 'name', 'user', 'desc', 'cover', 'status', 'tips', 'steps', 'dish_num', 'ingredients', 'step_num', 'create_time', 'more']
+                fields2 = ['url', 'id', 'name', 'user', 'desc', 'cover', 'status', 'tips', 'steps', 'dish_num', 'ingredients', 
+                    'step_num', 'create_time', 'more']
                 
                 for field2 in fields2:
                     self.assertIn(field2, datacontent2, msg = 'response content had no field %s' % field2)
@@ -160,7 +163,8 @@ class Test_Add_Recipes(unittest.TestCase):
                 recipe_url = post_recipe_data_content.get('url')
                 get_recipe_data_content = json.loads(get_response.content)
                 
-                fields = ['url', 'id', 'name', 'user', 'desc', 'cover', 'status', 'tag', 'tips', 'steps', 'dish_num', 'ingredients', 'step_num', 'create_time', 'more']
+                fields = ['url', 'id', 'name', 'user', 'desc', 'cover', 'status', 'tag', 'tips', 'steps', 'dish_num', 'ingredients', 
+                    'step_num', 'create_time', 'more']
                 recipe_fields = ['url', 'id', 'name', 'desc', 'tips', 'steps', 'ingredients']
                 sim_fields = ['name', 'desc', 'tips']
                 mul_fields = ['steps', 'ingredients']
@@ -179,7 +183,8 @@ class Test_Add_Recipes(unittest.TestCase):
                     self.assertIn(field, post_recipe_data_content, msg = 'recipe content had field \'field\'.')
 
                 for item in sim_fields:      
-                    self.assertEqual(recipe_data[item], post_recipe_data_content[item], msg = 'field \'%s\' is consistent between object.' % item)
+                    self.assertEqual(recipe_data[item], post_recipe_data_content[item], 
+                            msg = 'field \'%s\' is consistent between object.' % item)
         
                 for item in mul_fields:                    
                     #demo
@@ -316,7 +321,8 @@ class Test_Add_Recipes(unittest.TestCase):
 
                 add_response = requests.post(self.recipes_url, headers = headers, data = recipe_data)
                 self.assertEqual(add_response.status_code, 201, msg = 'response content status code error.')
-                fields = ['url', 'id', 'name', 'user', 'desc', 'cover', 'status', 'tag', 'tips', 'steps', 'dish_num', 'ingredients', 'step_num', 'create_time', 'more']
+                fields = ['url', 'id', 'name', 'user', 'desc', 'cover', 'status', 'tag', 'tips', 'steps', 'dish_num', 'ingredients', 
+                    'step_num', 'create_time', 'more']
 
                 try:
                     add_response_content = json.loads(add_response.content)
