@@ -49,14 +49,15 @@ class Test_Bulks_View(unittest.TestCase):
                         self.assertIn(field2, datacontent[i].get('reseller'), msg = 'reseller had field \'%s\'.' % field2)
 
                     self.assertGreater(datacontent[i].get('dead_time'), datacontent[i].get('create_time'), 
-                                msg = 'dead time is greater than create time. % s' % datacontent[i].get('id'))
+                            msg = 'dead time is greater than create time. % s' % datacontent[i].get('id'))
                     self.assertGreater(datacontent[i].get('arrived_time'), datacontent[i].get('creat_time'),
-                                msg = 'arrived time is greater than create time.')
+                            msg = 'arrived time is greater than create time.')
                     self.assertLessEqual(datacontent[i].get('dead_time'), datacontent[i].get('arrived_time'),
-                                msg = 'dead time is less equal than arrived time. % s' % datacontent[i].get('id'))
+                            msg = 'dead time is less equal than arrived time. % s' % datacontent[i].get('id'))
                     
                     self.assertIn(datacontent[i].get('status'), status_code, msg = 'status code is correct.')
-                    self.assertIn(datacontent[i].get('receive_mode'), receive_mode, msg = 'receive mode %s is correct.' % datacontent[i].get('id'))
+                    self.assertIn(datacontent[i].get('receive_mode'), receive_mode, 
+                            msg = 'receive mode %s is correct.' % datacontent[i].get('id'))
 
                     itemcovers = datacontent[i].get('covers')
                     for i2 in range(0, len(itemcovers)):
@@ -68,7 +69,8 @@ class Test_Bulks_View(unittest.TestCase):
                     for i4 in range(0, len(datacontent)-1):
                         if datacontent[i4].get('dead_time') < datacontent[i4+1].get('dead_time'):
                             print i4
-                        self.assertGreaterEqual(datacontent[i4].get('dead_time'), datacontent[i4+1].get('dead_time'), msg = 'bulks response order by deadtime.')
+                        self.assertGreaterEqual(datacontent[i4].get('dead_time'), datacontent[i4+1].get('dead_time'), 
+                                msg = 'bulks response order by deadtime.')
                         
                 else:
                     print "datacontent length error"
@@ -83,8 +85,8 @@ class Test_Bulks_View(unittest.TestCase):
                                 'standard_time', 'dead_time', 'arrived_time', 'status', 'card_title', 'card_desc', 'card_url',
                                 'create_time', 'participant_count', 'receive_mode']
                         dispatchers_fields = ['id', 'name', 'tail', 'address', 'create_time', 'opening_time', 'closing_time']
-                        products_fields = ['url', 'id', 'title', 'desc', 'unit_price', 'market_price', 'spec', 'spec_desc', 'cover',
-                                    'create_time', 'details', 'participant_count', 'purchased_count', 'tag', 'tag_color',
+                        products_fields = ['url', 'id', 'title', 'desc', 'unit_price', 'market_price', 'spec', 'spec_desc', 
+                                    'cover','create_time', 'details', 'participant_count', 'purchased_count', 'tag', 'tag_color',
                                     'participant_avatars', 'history']
                         details = ['image', 'plain', 'seq', 'width', 'height']
                         
@@ -106,14 +108,16 @@ class Test_Bulks_View(unittest.TestCase):
 
 
                         for field3 in reseller_fields:
-                            self.assertIn(field3, bulk_response_content.get('reseller'), msg = 'bulk response content had field \'% s\'.' % field3)
+                            self.assertIn(field3, bulk_response_content.get('reseller'), 
+                                    msg = 'bulk response content had field \'% s\'.' % field3)
                         for i3 in range(0, len(bulk_response_content.get('dispatchers'))):
                             for field4 in dispatchers_fields:
                                 self.assertIn(field4, bulk_response_content.get('dispatchers')[i3],
-                                    msg = 'bulk response content had field \'% s\'.' % field4)
+                                        msg = 'bulk response content had field \'% s\'.' % field4)
                                 
-                                self.assertLessEqual(bulk_response_content.get('dispatchers')[i3].get('opening_time'), bulk_response_content.get('dispatchers')[i3].get('closing_time'), 
-                                    msg = 'opening time less equal than closing time.')
+                                self.assertLessEqual(bulk_response_content.get('dispatchers')[i3].get('opening_time'), 
+                                            bulk_response_content.get('dispatchers')[i3].get('closing_time'), 
+                                        msg = 'opening time less equal than closing time.')
                                    
                     
                     except exceptions.ValueError, e:
@@ -139,11 +143,14 @@ class Test_Bulks_View(unittest.TestCase):
         })
 
         bulks_page_response = requests.get(bulks_page_url)
-        self.assertEqual(bulks_page_response.status_code, 200, msg = 'bulks page response status code equals to 200.')
+        self.assertEqual(bulks_page_response.status_code, 200, 
+                msg = 'bulks page response status code equals to 200.')
         try:
             bulks_page_response_content = json.loads(bulks_page_response.content)
-            self.assertIsInstance(bulks_page_response_content, list, msg = 'bulks page response content is a list.')
-            self.assertEqual(len(bulks_page_response_content), page_size, msg = 'bulks page response content length no more than page_size.')
+            self.assertIsInstance(bulks_page_response_content, list, 
+                    msg = 'bulks page response content is a list.')
+            self.assertEqual(len(bulks_page_response_content), page_size, 
+                    msg = 'bulks page response content length no more than page_size.')
 
             pre_dead_time = None
             for item in range(0, len(bulks_page_response_content)):
@@ -151,7 +158,8 @@ class Test_Bulks_View(unittest.TestCase):
                     pre_dead_time = bulks_page_response_content[item].get('dead_time')
                 else:
                     current_dead_time = bulks_page_response_content[item].get('dead_time')
-                    self.assertLessEqual(current_dead_time, pre_dead_time, msg = 'bulk page response content ordered by dead time.')
+                    self.assertLessEqual(current_dead_time, pre_dead_time, 
+                            msg = 'bulk page response content ordered by dead time.')
                     print current_dead_time
                     pre_dead_time = current_dead_time
                 self.assertGreater(pre_dead_time, time, msg = 'bulks dead time less than parameter \'time\'.')

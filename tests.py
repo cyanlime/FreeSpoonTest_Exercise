@@ -5,6 +5,7 @@ import test_images
 import test_bulks
 import test_products
 import test_purchased_product_historys
+import test_dishs
 
 if __name__ == '__main__':
     allsuite = unittest.TestSuite()
@@ -19,6 +20,8 @@ if __name__ == '__main__':
     suite = unittest.TestLoader().loadTestsFromModule(test_products)
     allsuite.addTest(suite)
     suite = unittest.TestLoader().loadTestsFromModule(test_purchased_product_historys)
+    allsuite.addTest(suite)
+    suite = unittest.TestLoader().loadTestsFromModule(test_dishs)
     allsuite.addTest(suite)
 
     unittest.TextTestRunner(verbosity=2).run(allsuite)

@@ -6,7 +6,7 @@ import exceptions
 class Test_Authorization(unittest.TestCase):
 
     def setUp(self):
-        self.login_url = 'http://yijiayinong.com/api/business/login'
+        self.login_url = 'http://192.168.102.42/api/business/login'
         self.mob = '18600113725'
 
     def test_login(self):

@@ -15,7 +15,7 @@ import utils
 class Test_Recipes_View(unittest.TestCase):
     
     def setUp(self):
-        self.recipes_url = 'http://yijiayinong.com/api/business/recipes/'
+        self.recipes_url = 'http://192.168.102.42/api/business/recipes/'
 
     def test_fetch_recipes(self):
         response = requests.get(self.recipes_url)
@@ -91,9 +91,9 @@ class Test_Recipes_View(unittest.TestCase):
 class Test_Add_Recipes(unittest.TestCase):
     
     def setUp(self):
-        self.login_url = 'http://yijiayinong.com/api/business/login'
-        self.recipes_url = 'http://yijiayinong.com/api/business/recipes/'
-        self.images_url = 'http://yijiayinong.com/api/business/images/'        
+        self.login_url = 'http://192.168.102.42/api/business/login'
+        self.recipes_url = 'http://192.168.102.42/api/business/recipes/'
+        self.images_url = 'http://192.168.102.42/api/business/images/'        
         self.mob = '18610178190'
         login_response = requests.post(self.login_url, data = {
             'mob': self.mob,
@@ -109,7 +109,7 @@ class Test_Add_Recipes(unittest.TestCase):
                 'Authorization': 'JWT %s' % self.token
             }
             response = requests.delete(recipe, headers = headers)
-      
+        pass
 
     def test_add_recipe(self):
 
@@ -148,6 +148,8 @@ class Test_Add_Recipes(unittest.TestCase):
                     self.assertEqual(get_image_md5, md5, msg = 'image md5 value are consist.')
 
                     recipe_data['cover'] = image_md5
+                    for item in range(0, len(recipe_data['steps'])):
+                        recipe_data['steps'][item]['image'] = image_md5
 
                 except exceptions.ValueError, E:
                     self.assertTrue(False, msg = 'response content is json.')
@@ -250,6 +252,8 @@ class Test_Add_Recipes(unittest.TestCase):
                     self.assertEqual(get_image_md5, md5, msg = 'image md5 are consist.')
 
                     recipe_data['cover'] = md5
+                    for i in range(0, len(recipe_data['steps'])):
+                        recipe_data['steps'][i]['image'] = md5
 
                 except exceptions.ValueError, e:
                     self.assertTrue(False, msg = 'response content is json.')    
@@ -315,6 +319,8 @@ class Test_Add_Recipes(unittest.TestCase):
                     self.assertEqual(get_image_md5, md5, msg = 'image md5 value are consist.')                
 
                     recipe_data['cover'] = md5
+                    for i in range(0, len(recipe_data['steps'])):
+                        recipe_data['steps'][i]['image'] = md5
 
                 except exceptions.ValueError, e:
                     self.assertTrue(False, msg = 'response is json.')

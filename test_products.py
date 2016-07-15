@@ -64,7 +64,8 @@ class Test_Product_View(unittest.TestCase):
                             product_url = bulk_response_content.get('products')[i2].get('url')
                             history_url = bulk_response_content.get('products')[i2].get('history')
 
-                            product_fields = ['url', 'id', 'title', 'desc', 'unit_price', 'market_price', 'spec', 'spec_desc', 'cover', 'create_time', 'details', 'bulk_url']
+                            product_fields = ['url', 'id', 'title', 'desc', 'unit_price', 'market_price', 'spec', 'spec_desc', 'cover', 
+                                    'create_time', 'details', 'bulk_url']
                             
                             product_response = requests.get(product_url, headers = headers)
                             self.assertEqual(product_response.status_code, 200, msg = 'response status code equals to 200.')
@@ -72,7 +73,8 @@ class Test_Product_View(unittest.TestCase):
                                 product_response_content = json.loads(product_response.content)
                                 
                                 for field4 in product_fields:
-                                    self.assertIn(field4, product_response_content, msg = 'product response content had field \'%s\'.' % field4)
+                                    self.assertIn(field4, product_response_content, 
+                                            msg = 'product response content had field \'%s\'.' % field4)
                                 #self.assertLessEqual(product_response_content.get('unit_price'), product_response_content.get('market_price'),
                                             #msg = 'unit price is less or equal than market price.')
                                 
@@ -82,20 +84,19 @@ class Test_Product_View(unittest.TestCase):
                                                            
                                 for i5 in range(0, len(product_response_content.get('details'))):
                                     for field5 in details_fields:
-                                        self.assertIn(field5, product_response_content.get('details')[i5], msg = 'detail had field \'%s\'.' % field5)
-                                        self.assertEqual(product_response_content.get('details')[i5].get('seq'), i5+1, msg = 'detail seq correct.')            
-
+                                        self.assertIn(field5, product_response_content.get('details')[i5], 
+                                                msg = 'detail had field \'%s\'.' % field5)
+                                        self.assertEqual(product_response_content.get('details')[i5].get('seq'), i5+1, 
+                                                msg = 'detail seq correct.')            
 
                             except exceptions.ValueError, e:
                                 self.assertTrue(False, msg = 'response content is json.')
-
 
                     except exceptions.ValueError,e:
                         self.assertTrue(False, msg = 'response content is json.')
 
         except exceptions.ValueError,e:
             self.assertTrue(False, msg = 'response content is json.')
-
 
 
     def fetch_product_without_authorization(self):
