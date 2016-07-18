@@ -127,7 +127,6 @@ class Test_Bulks_View(unittest.TestCase):
             self.assertTrue(False, msg = 'response content is json.')
 
 
-
     def test_fetch_bulks_without_authorization(self):
         response = requests.get(self.bulks_url)
         self.assertEqual(response.status_code, 200, msg = 'response status code equals to 200.')
@@ -152,7 +151,7 @@ class Test_Bulks_View(unittest.TestCase):
             self.assertEqual(len(bulks_page_response_content), page_size, 
                     msg = 'bulks page response content length no more than page_size.')
 
-            pre_dead_time = None
+            pre_dead_time = None            
             for item in range(0, len(bulks_page_response_content)):
                 if not pre_dead_time:
                     pre_dead_time = bulks_page_response_content[item].get('dead_time')
@@ -162,7 +161,7 @@ class Test_Bulks_View(unittest.TestCase):
                             msg = 'bulk page response content ordered by dead time.')
                     print current_dead_time
                     pre_dead_time = current_dead_time
-                self.assertGreater(pre_dead_time, time, msg = 'bulks dead time less than parameter \'time\'.')
+                self.assertGreater(pre_dead_time, time, msg = 'bulks %s dead time less than parameter \'time\'.' % bulks_page_response_content[item].get('url'))
 
 
         except exceptions.ValueError, e:
